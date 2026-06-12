@@ -10,41 +10,20 @@ import { playHoverSound, playClickSound } from '../utils/audio';
 export const Hero: React.FC = () => {
   return (
     <section 
-      className="section" 
+      className="section hero-section" 
       id="home" 
       style={{ 
         display: 'flex', 
         alignItems: 'center',
         position: 'relative',
         overflow: 'hidden',
+        backgroundImage: 'url(/hero-bg.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
       }}
     >
-      {/* Space Nebula Background Video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 0,
-          opacity: 0.22,
-          mixBlendMode: 'screen',
-          pointerEvents: 'none',
-        }}
-      >
-        <source 
-          src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1611-large.mp4" 
-          type="video/mp4" 
-        />
-      </video>
-
-      {/* Cyberpunk dot pattern mask overlay */}
+      {/* Overlay for readability and theme depth */}
       <div
         style={{
           position: 'absolute',
@@ -52,30 +31,50 @@ export const Hero: React.FC = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          zIndex: 1,
-          backgroundImage: 'radial-gradient(rgba(0, 243, 255, 0.05) 1.5px, transparent 1.5px)',
-          backgroundSize: '24px 24px',
+          background: 'linear-gradient(135deg, rgba(11, 15, 25, 0.75) 0%, rgba(12, 18, 35, 0.8) 50%, rgba(11, 15, 25, 0.75) 100%)',
+          zIndex: 0,
           pointerEvents: 'none',
         }}
       />
 
-      {/* Glowing ambient backing nebula */}
+      {/* Ambient glow accents */}
       <div
         style={{
           position: 'absolute',
-          top: '20%',
-          left: '10%',
+          top: '10%',
+          right: '-10%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(0,0,0,0) 70%)',
+          filter: 'blur(100px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '-15%',
+          left: '5%',
           width: '400px',
           height: '400px',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0,0,0,0) 70%)',
+          background: 'radial-gradient(circle, rgba(0, 243, 255, 0.08) 0%, rgba(0,0,0,0) 70%)',
           filter: 'blur(80px)',
-          zIndex: 1,
+          zIndex: 0,
           pointerEvents: 'none',
         }}
       />
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '3rem', alignItems: 'center' }}>
+        <div 
+          className="hero-grid"
+          style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'clamp(1fr, 1.2fr, 100%)', 
+          gap: 'clamp(1.5rem, 3vw, 3rem)', 
+          alignItems: 'center',
+        }}>
           
           {/* Left Column */}
           <motion.div
@@ -100,7 +99,7 @@ export const Hero: React.FC = () => {
               </span>
             </div>
 
-            <h1 style={{ fontFamily: 'Orbitron, sans-serif' }}>
+            <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1 }}>
               <SplitText
                 text="Building Scalable"
                 className="gradient-text"
@@ -108,7 +107,7 @@ export const Hero: React.FC = () => {
                 stagger={0.03}
               />
               <br />
-              <span style={{ fontSize: '3.2rem', fontWeight: 900, letterSpacing: '0.05em' }}>APPLICATIONS</span>
+              <span style={{ fontWeight: 900, letterSpacing: '0.02em' }}>APPLICATIONS</span>
             </h1>
 
             <div style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', fontWeight: 500, fontFamily: 'JetBrains Mono, monospace' }}>

@@ -79,20 +79,25 @@ export const Projects: React.FC = () => {
         flexDirection: 'column', 
         justifyContent: 'center', 
         boxSizing: 'border-box',
-        padding: '2rem'
       }}
     >
-      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: 'calc(100vh - 4rem)', justifyContent: 'center', overflow: 'hidden' }}>
+      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '2rem', justifyContent: 'center' }}>
         
         {/* Section Heading */}
-        <div style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '0.3rem', letterSpacing: '0.05em' }}>
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{ textAlign: 'center' }}
+        >
+          <h2 style={{ marginBottom: '1rem' }}>
             <SplitText text="Featured Projects" duration={0.5} stagger={0.03} />
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '0.7rem' }}>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: 'clamp(0.85rem, 2vw, 1rem)', lineHeight: 1.6 }}>
             A selection of software engineering projects covering web extensions, automation pipelines, VR graphics, and computer vision.
           </p>
-        </div>
+        </motion.div>
 
         {/* Dynamic Global Settings Panel (Aesthetic controls) */}
         <div
@@ -181,19 +186,7 @@ export const Projects: React.FC = () => {
               }}
             >
               <TiltCard maxTilt={8}>
-                <div
-                  className="glass"
-                  style={{
-                    padding: '1.2rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    height: '100%',
-                    border: '1px solid var(--card-border)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                  }}
-                >
+                <div className="premium-card">
                   {/* Header Icons */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ color: 'var(--accent-primary)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
