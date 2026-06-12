@@ -71,8 +71,8 @@ export const Hero: React.FC = () => {
           className="hero-grid"
           style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'clamp(1fr, 1.2fr, 100%)', 
-          gap: 'clamp(1.5rem, 3vw, 3rem)', 
+          gridTemplateColumns: '1fr 1.2fr', 
+          gap: 'clamp(2rem, 4vw, 3rem)', 
           alignItems: 'center',
         }}>
           

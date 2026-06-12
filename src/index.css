@@ -82,7 +82,7 @@
 }
 
 html {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
   overflow-y: scroll;
 }
@@ -151,7 +151,6 @@ a {
   height: 100vh;
   height: 100dvh;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -499,9 +498,8 @@ a {
   box-shadow: 
     0 0 25px rgba(var(--accent-rgb), 0.25),
     0 0 15px rgba(var(--secondary-rgb), 0.15),
-    0 12px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transform: translateY(-8px);
+  transform: scale(1.02);
 }
 
 .premium-card:hover::before {
