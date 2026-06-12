@@ -258,31 +258,31 @@ export const Skills: React.FC = () => {
 
       <div className="container" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1.5rem', maxHeight: '100%', justifyContent: 'center' }}>
         
-        {/* Section Heading */}
-        <div style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2.2rem', marginBottom: '0.4rem', letterSpacing: '0.05em' }}>
+        {/* Section Heading - positioned as overlay */}
+        <div style={{ position: 'absolute', top: '2rem', left: '2rem', zIndex: 5, textAlign: 'left', maxWidth: '45%' }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>
             <SplitText text="Technical Arsenal" duration={0.5} stagger={0.03} />
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '0.82rem' }}>
-            A fully interactive 3D simulation of our solar system mapping disciplines to elliptic orbital planes. Drag to orbit, scroll to zoom, or lock onto a planet.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', lineHeight: 1.5 }}>
+            Drag to orbit, scroll to zoom.
           </p>
         </div>
 
-        {/* Flex layout for Space Canvas & Telemetry Scan HUD */}
+        {/* Full page Space Canvas & Telemetry Scan HUD */}
         <div
           style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            flexWrap: 'wrap',
-            gap: '2rem',
-            width: '100%',
           }}
         >
-          {/* Left Column: Interactive Space Canvas & Orbit Controls */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem' }}>
+          {/* Center: Interactive Space Canvas & Orbit Controls */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', height: '100%', justifyContent: 'center' }}>
             
-            {/* Viewport Dragging area */}
+            {/* Viewport Dragging area - Full page */}
             <div
               ref={containerRef}
               onMouseDown={handleMouseDown}
@@ -293,17 +293,18 @@ export const Skills: React.FC = () => {
               onTouchMove={handleTouchMove}
               onTouchEnd={handleMouseUp}
               style={{
-                position: 'relative',
-                width: 'min(380px, 85vw, 38vh)',
-                height: 'min(380px, 85vw, 38vh)',
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                top: 0,
+                left: 0,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: 'rgba(0,0,0,0.2)',
-                borderRadius: '24px',
-                border: '1px solid var(--card-border)',
-                boxShadow: 'inset 0 0 50px rgba(0,0,0,0.6)',
-                maxWidth: '90vw',
+                backgroundColor: 'transparent',
+                borderRadius: '0',
+                border: 'none',
+                boxShadow: 'none',
                 overflow: 'hidden',
                 cursor: isDragging ? 'grabbing' : 'grab',
                 transformStyle: 'preserve-3d',
@@ -492,19 +493,25 @@ export const Skills: React.FC = () => {
               </div>
             </div>
 
-            {/* Observatory Controls Panel (Under Solar System) */}
+            {/* Observatory Controls Panel (Bottom Center) */}
             <div
               className="glass"
               style={{
-                width: 'min(380px, 85vw, 38vh)',
+                width: 'auto',
+                maxWidth: 'min(400px, 90vw)',
                 padding: '0.6rem 1rem',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 border: '1px solid var(--card-border)',
                 borderRadius: '12px',
                 gap: '0.8rem',
                 flexWrap: 'wrap',
+                position: 'absolute',
+                bottom: '2rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 10,
               }}
             >
               {/* Reset View */}
@@ -651,21 +658,24 @@ export const Skills: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Holographic Skills Scan HUD */}
+          {/* Right Column: Holographic Skills Scan HUD (Positioned Top-Right) */}
           <div
             className="glass"
             style={{
-              width: 'min(380px, 85vw)',
-              height: 'min(450px, 44vh)',
+              width: 'min(350px, 35vw)',
+              maxHeight: 'min(450px, 40vh)',
               padding: '1.5rem',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
               border: '1px solid var(--card-border)',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-              position: 'relative',
+              position: 'absolute',
+              top: '2rem',
+              right: '2rem',
               overflow: 'hidden',
               minHeight: '320px',
+              zIndex: 10,
             }}
           >
             {/* Holographic neon scanlines backdrop */}

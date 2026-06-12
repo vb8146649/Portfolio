@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { SplitText } from './SplitText';
 import { TiltCard } from './TiltCard';
-import { ExternalLink, Folder, Settings, Activity, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Folder, Activity, ShieldCheck } from 'lucide-react';
 import { GithubIcon } from './Icons';
 import { playHoverSound, playClickSound, playSuccessSound } from '../utils/audio';
 
@@ -18,8 +18,6 @@ interface ProjectItem {
 }
 
 export const Projects: React.FC = () => {
-  const [particleSpeed, setParticleSpeed] = useState(1.0);
-
   // Predefined list of real projects from Vishal's resume
   const projectList: ProjectItem[] = [
     {
@@ -64,12 +62,6 @@ export const Projects: React.FC = () => {
     }
   ];
 
-  const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value);
-    setParticleSpeed(val);
-    window.dispatchEvent(new CustomEvent('particlespeed', { detail: val }));
-  };
-
   return (
     <section 
       className="section" 
@@ -99,66 +91,7 @@ export const Projects: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Dynamic Global Settings Panel (Aesthetic controls) */}
-        <div
-          className="glass"
-          style={{
-            padding: '0.8rem 1rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '0.8rem',
-            border: '1px solid var(--card-border)',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <Settings size={16} style={{ color: 'var(--accent-primary)' }} className="floating" />
-            <div>
-              <h4 style={{ fontSize: '0.65rem', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Settings
-              </h4>
-              <p style={{ fontSize: '0.55rem', color: 'var(--text-secondary)' }}>
-                Adjust FX intensity
-              </p>
-            </div>
-          </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap', flex: 1, justifyContent: 'flex-end' }}>
-            <div style={{ minWidth: '180px', width: '25%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace', color: 'var(--text-primary)', marginBottom: '0.2rem' }}>
-                <span>FX INTENSITY</span>
-                <span style={{ color: 'var(--accent-secondary)' }}>{particleSpeed.toFixed(1)}x</span>
-              </div>
-              <input
-                type="range"
-                min="0.0"
-                max="4.0"
-                step="0.1"
-                value={particleSpeed}
-                onChange={handleSpeedChange}
-                onFocus={playClickSound}
-                style={{
-                  width: '100%',
-                  accentColor: 'var(--accent-primary)',
-                  cursor: 'pointer',
-                }}
-              />
-            </div>
-
-            <button
-              onClick={() => {
-                playSuccessSound();
-              }}
-              onMouseEnter={playHoverSound}
-              className="btn btn-secondary clickable"
-              style={{ fontSize: '0.7rem', padding: '0.4rem 0.8rem' }}
-            >
-              Test Synth Chords
-            </button>
-          </div>
-        </div>
 
         {/* Scalable Project Card Flex Row (Horizontal Scroll) */}
         <div

@@ -11,7 +11,11 @@ interface LogEntry {
 type TabType = 'TERMINAL' | 'PROBLEMS' | 'OUTPUT' | 'DEBUG_CONSOLE';
 
 export const TerminalWidget: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    const saved = localStorage.getItem('terminalOpen');
+    return saved ? JSON.parse(saved) : true;
+  });
   const [activeTab, setActiveTab] = useState<TabType>('TERMINAL');
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<LogEntry[]>([
@@ -23,6 +27,11 @@ export const TerminalWidget: React.FC = () => {
   const terminalEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const matrixCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Persist terminal open state
+  useEffect(() => {
+    localStorage.setItem('terminalOpen', JSON.stringify(isOpen));
+  }, [isOpen]);
 
   // Auto scroll
   useEffect(() => {
