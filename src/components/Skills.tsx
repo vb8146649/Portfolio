@@ -415,8 +415,8 @@ export const Skills: React.FC = () => {
                         }}
                         style={{
                           position: 'absolute',
-                          width: `${planet.size + 24}px`, // Large 24px padding for hover detection
-                          height: `${planet.size + 24}px`,
+                          width: `${planet.size + 40}px`, // Increased to 40px padding for better hover detection
+                          height: `${planet.size + 40}px`,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -425,8 +425,8 @@ export const Skills: React.FC = () => {
                           // Combine 3D projection & billboard inverse rotation
                           transform: `translate3d(${x_3d}px, ${y_3d}px, ${z_3d}px) rotateZ(${-systemYaw}deg) rotateX(${-systemTilt}deg)`,
                           transformStyle: 'preserve-3d',
-                          left: `calc(50% - ${(planet.size + 24) / 2}px)`,
-                          top: `calc(50% - ${(planet.size + 24) / 2}px)`,
+                          left: `calc(50% - ${(planet.size + 40) / 2}px)`,
+                          top: `calc(50% - ${(planet.size + 40) / 2}px)`,
                           backgroundColor: 'transparent',
                         }}
                       >
@@ -796,143 +796,6 @@ export const Skills: React.FC = () => {
                       textAlign: 'center',
                       fontFamily: 'JetBrains Mono, monospace',
                       fontSize: '0.62rem',
-                      color: 'var(--accent-secondary)',
-                      backgroundColor: 'rgba(0,243,255,0.02)',
-                    }}
-                  >
-                    OBSERVATORY SYSTEM CONNECTED
-                  </div>
-                </div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-      </div>
-
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-    </section>
-  );
-};
-
-            <AnimatePresence mode="wait">
-              {activeInfo ? (
-                <motion.div
-                  key={activeInfo.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  style={{ zIndex: 1, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}
-                >
-                  <div>
-                    {/* Heading tag */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
-                      <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.15em', fontFamily: 'Orbitron, sans-serif' }}>
-                        ORBIT LOCK ACTIVE
-                      </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: activeInfo.color, fontSize: '0.72rem', fontWeight: 600 }}>
-                        {activeInfo.icon} {activeInfo.name.toUpperCase()}
-                      </span>
-                    </div>
-
-                    <h3 style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '0.25rem', fontFamily: 'Orbitron, sans-serif' }}>
-                      {activeInfo.discipline}
-                    </h3>
-                    <div style={{ width: '40px', height: '2.5px', backgroundColor: activeInfo.color, marginBottom: '1rem' }} />
-                    
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', lineHeight: '1.6', marginBottom: '1.5rem', fontStyle: 'italic', fontFamily: 'JetBrains Mono, monospace' }}>
-                      &gt; "{activeInfo.fact}"
-                    </p>
-
-                    {/* Skill array grid */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                      {activeInfo.skills.map((skill, index) => (
-                        <div key={skill} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-primary)' }}>
-                            <span>{skill}</span>
-                            <span style={{ color: activeInfo.color }}>{92 - index * 5}%</span>
-                          </div>
-                          {/* Skill bar */}
-                          <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${92 - index * 5}%` }}
-                              transition={{ duration: 0.6, ease: 'easeOut' }}
-                              style={{ height: '100%', backgroundColor: activeInfo.color, borderRadius: '2px' }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div style={{ borderTop: '1px solid var(--card-border)', paddingTop: '1rem', marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>
-                      OBSERVATORY SYNCED
-                    </span>
-                    <button
-                      onClick={() => {
-                        playClickSound();
-                        setSelectedPlanet(null);
-                        setHoveredPlanet(null);
-                      }}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: activeInfo.color,
-                        fontSize: '0.65rem',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                      }}
-                    >
-                      Clear Scan
-                    </button>
-                  </div>
-                </motion.div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', zIndex: 1 }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                      <span style={{ fontSize: '0.65rem', color: '#ff007f', letterSpacing: '0.12em', fontWeight: 700, fontFamily: 'Orbitron, sans-serif' }}>
-                        SCANNING TRACKS...
-                      </span>
-                    </div>
-
-                    <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '1rem', fontFamily: 'Orbitron, sans-serif' }}>
-                      Observed Telemetry
-                    </h3>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', lineHeight: '1.7', fontFamily: 'JetBrains Mono, monospace' }}>
-                      &gt; AWAITING ORBITAL LOCK.
-                      <br />
-                      &gt; Hover over or click a planet in the viewport grid to launch a scanning session.
-                      <br /><br />
-                      &gt; Planetary Legend:
-                      <br />
-                      &nbsp;&nbsp;• Mercury : Frontend UI & Styling
-                      <br />
-                      &nbsp;&nbsp;• Venus   : Core Languages & Systems
-                      <br />
-                      &nbsp;&nbsp;• Earth   : Backend Engines & Automation
-                      <br />
-                      &nbsp;&nbsp;• Mars    : Robotics CV Tracks
-                    </p>
-                  </div>
-
-                  <div
-                    style={{
-                      border: '1px dashed rgba(255,255,255,0.08)',
-                      padding: '0.8rem',
-                      textAlign: 'center',
-                      fontFamily: 'JetBrains Mono, monospace',
-                      fontSize: '0.68rem',
                       color: 'var(--accent-secondary)',
                       backgroundColor: 'rgba(0,243,255,0.02)',
                     }}
