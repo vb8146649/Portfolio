@@ -256,7 +256,7 @@ export const Skills: React.FC = () => {
         }}
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '1.5rem', maxHeight: '100%', justifyContent: 'center' }}>
+      <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         
         {/* Section Heading - positioned as overlay */}
         <div style={{ position: 'absolute', top: '2rem', left: '2rem', zIndex: 5, textAlign: 'left', maxWidth: '45%' }}>
@@ -271,7 +271,9 @@ export const Skills: React.FC = () => {
         {/* Full page Space Canvas & Telemetry Scan HUD */}
         <div
           style={{
-            position: 'relative',
+            position: 'absolute',
+            top: 0,
+            left: 0,
             width: '100%',
             height: '100%',
             display: 'flex',
@@ -279,10 +281,7 @@ export const Skills: React.FC = () => {
             justifyContent: 'center',
           }}
         >
-          {/* Center: Interactive Space Canvas & Orbit Controls */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', height: '100%', justifyContent: 'center' }}>
-            
-            {/* Viewport Dragging area - Full page */}
+          {/* Viewport Dragging area - Full page */}
             <div
               ref={containerRef}
               onMouseDown={handleMouseDown}
@@ -656,7 +655,6 @@ export const Skills: React.FC = () => {
               </div>
 
             </div>
-          </div>
 
           {/* Right Column: Holographic Skills Scan HUD (Positioned Top-Right) */}
           <div
