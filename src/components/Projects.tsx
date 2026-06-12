@@ -78,17 +78,18 @@ export const Projects: React.FC = () => {
         display: 'flex', 
         flexDirection: 'column', 
         justifyContent: 'center', 
-        boxSizing: 'border-box' 
+        boxSizing: 'border-box',
+        padding: '2rem'
       }}
     >
-      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxHeight: '100%', justifyContent: 'center' }}>
+      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: 'calc(100vh - 4rem)', justifyContent: 'center', overflow: 'hidden' }}>
         
         {/* Section Heading */}
         <div style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2.2rem', marginBottom: '0.4rem', letterSpacing: '0.05em' }}>
+          <h2 style={{ fontSize: '1.8rem', marginBottom: '0.3rem', letterSpacing: '0.05em' }}>
             <SplitText text="Featured Projects" duration={0.5} stagger={0.03} />
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '0.82rem' }}>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '0.7rem' }}>
             A selection of software engineering projects covering web extensions, automation pipelines, VR graphics, and computer vision.
           </p>
         </div>
@@ -97,24 +98,24 @@ export const Projects: React.FC = () => {
         <div
           className="glass"
           style={{
-            padding: '1rem 1.5rem',
+            padding: '0.8rem 1rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
-            gap: '1rem',
+            gap: '0.8rem',
             border: '1px solid var(--card-border)',
             boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-            <Settings size={18} style={{ color: 'var(--accent-primary)' }} className="floating" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <Settings size={16} style={{ color: 'var(--accent-primary)' }} className="floating" />
             <div>
-              <h4 style={{ fontSize: '0.8rem', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Interactive Settings
+              <h4 style={{ fontSize: '0.65rem', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Settings
               </h4>
-              <p style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>
-                Adjust the speed of background elements and test the interactive interface synthesizer.
+              <p style={{ fontSize: '0.55rem', color: 'var(--text-secondary)' }}>
+                Adjust FX intensity
               </p>
             </div>
           </div>
@@ -159,33 +160,35 @@ export const Projects: React.FC = () => {
           className="projects-scrollbar"
           style={{
             display: 'flex',
-            gap: '1.5rem',
+            gap: '1rem',
             width: '100%',
             overflowX: 'auto',
-            padding: '1rem 0.5rem',
+            padding: '0.5rem 0.25rem',
             scrollSnapType: 'x mandatory',
             scrollBehavior: 'smooth',
             WebkitOverflowScrolling: 'touch',
+            flex: 1,
+            overflow: 'hidden',
           }}
         >
           {projectList.map((project) => (
             <div 
               key={project.id} 
               style={{ 
-                flex: '0 0 320px', 
+                flex: '0 0 280px', 
                 scrollSnapAlign: 'start', 
-                height: '370px' 
+                height: '100%' 
               }}
             >
               <TiltCard maxTilt={8}>
                 <div
                   className="glass"
                   style={{
-                    padding: '1.5rem',
+                    padding: '1.2rem',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    height: '360px', // Uniform compact height
+                    height: '100%',
                     border: '1px solid var(--card-border)',
                     position: 'relative',
                     overflow: 'hidden',
@@ -193,13 +196,13 @@ export const Projects: React.FC = () => {
                 >
                   {/* Header Icons */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ color: 'var(--accent-primary)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <Folder size={20} />
-                      <span style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>
+                    <div style={{ color: 'var(--accent-primary)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                      <Folder size={16} />
+                      <span style={{ fontSize: '0.55rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>
                         {project.category}
                       </span>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.8rem' }}>
+                    <div style={{ display: 'flex', gap: '0.6rem' }}>
                       <a
                         href={project.githubUrl}
                         target="_blank"
@@ -209,7 +212,7 @@ export const Projects: React.FC = () => {
                         onClick={playClickSound}
                         style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }}
                       >
-                        <GithubIcon size={16} />
+                        <GithubIcon size={14} />
                       </a>
                       <a
                         href={project.liveUrl}
@@ -220,17 +223,17 @@ export const Projects: React.FC = () => {
                         onClick={playClickSound}
                         style={{ color: 'var(--text-secondary)', transition: 'color 0.2s' }}
                       >
-                        <ExternalLink size={16} />
+                        <ExternalLink size={14} />
                       </a>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div style={{ marginTop: '0.8rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <h3 style={{ fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>
+                  <div style={{ marginTop: '0.6rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <h3 style={{ fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '0.3rem' }}>
                       {project.title}
                     </h3>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.72rem', lineHeight: '1.45', flex: 1 }}>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.65rem', lineHeight: '1.4', flex: 1 }}>
                       {project.description}
                     </p>
                   </div>
@@ -238,12 +241,12 @@ export const Projects: React.FC = () => {
                   {/* Simulated Telemetry Previews inside Cards */}
                   <div
                     style={{
-                      margin: '0.6rem 0',
+                      margin: '0.5rem 0',
                       background: 'rgba(0,0,0,0.3)',
                       borderRadius: '6px',
-                      padding: '0.5rem 0.7rem',
+                      padding: '0.4rem 0.6rem',
                       fontFamily: 'JetBrains Mono, monospace',
-                      fontSize: '0.65rem',
+                      fontSize: '0.6rem',
                       border: '1px solid rgba(255,255,255,0.03)',
                     }}
                   >
@@ -286,16 +289,16 @@ export const Projects: React.FC = () => {
                   </div>
 
                   {/* Tech Badges */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.2rem' }}>
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
                         style={{
-                          fontSize: '0.6rem',
+                          fontSize: '0.55rem',
                           fontFamily: 'JetBrains Mono, monospace',
                           color: 'var(--accent-secondary)',
                           background: 'rgba(6, 182, 212, 0.05)',
-                          padding: '0.1rem 0.4rem',
+                          padding: '0.08rem 0.35rem',
                           borderRadius: '3px',
                           border: '1px solid rgba(6, 182, 212, 0.1)',
                         }}

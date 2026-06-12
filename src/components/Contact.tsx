@@ -35,15 +35,15 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section className="section" id="contact" style={{ padding: '6rem 0' }}>
-      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+    <section className="section" id="contact" style={{ padding: '2rem' }}>
+      <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxHeight: 'calc(100vh - 4rem)', overflow: 'auto' }}>
         
         {/* Section Heading */}
         <div style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', letterSpacing: '0.05em' }}>
+          <h2 style={{ fontSize: '1.8rem', marginBottom: '0.6rem', letterSpacing: '0.05em' }}>
             <SplitText text="Contact Me" duration={0.5} stagger={0.03} />
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '0.9rem' }}>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '0.75rem' }}>
             Feel free to reach out for collaborations, project inquiries, or software discussions.
           </p>
         </div>
@@ -52,9 +52,9 @@ export const Contact: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2.5rem',
-            alignItems: 'stretch', // Stretches columns to match heights!
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.5rem',
+            alignItems: 'stretch',
             width: '100%',
           }}
         >
@@ -69,70 +69,72 @@ export const Contact: React.FC = () => {
             <div
               className="glass"
               style={{
-                padding: '2.5rem',
+                padding: '1.8rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                height: '100%', // Match height of parent flex/grid
-                minHeight: '420px',
+                height: '100%',
+                minHeight: '280px',
                 border: '1px solid var(--card-border)',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
               }}
             >
               <div>
-                <h3 style={{ fontSize: '1.3rem', color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '0.05em' }}>
+                <h3 style={{ fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.6rem', letterSpacing: '0.05em' }}>
                   Contact Details
                 </h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', lineHeight: '1.6', marginBottom: '2rem' }}>
-                  If you would like to collaborate on a project, discuss new opportunities, or ask questions, feel free to drop a message or reach out directly.
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.7rem', lineHeight: '1.5', marginBottom: '1.2rem' }}>
+                  If you would like to collaborate, discuss opportunities, or ask questions, feel free to reach out.
                 </p>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginTop: 'auto' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: 'auto' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                   <div
                     style={{
-                      width: '46px',
-                      height: '46px',
-                      borderRadius: '8px',
+                      width: '38px',
+                      height: '38px',
+                      borderRadius: '6px',
                       background: 'rgba(0, 243, 255, 0.08)',
                       border: '1px solid rgba(0, 243, 255, 0.2)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       color: 'var(--accent-secondary)',
+                      flexShrink: 0,
                     }}
                   >
-                    <Mail size={18} />
+                    <Mail size={16} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>EMAIL ADDRESS</div>
-                    <a href="mailto:vb8146649@gmail.com" className="clickable" style={{ fontWeight: 600, fontSize: '0.85rem' }}>
+                    <div style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>EMAIL</div>
+                    <a href="mailto:vb8146649@gmail.com" className="clickable" style={{ fontWeight: 600, fontSize: '0.75rem' }}>
                       vb8146649@gmail.com
                     </a>
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                   <div
                     style={{
-                      width: '46px',
-                      height: '46px',
-                      borderRadius: '8px',
+                      width: '38px',
+                      height: '38px',
+                      borderRadius: '6px',
                       background: 'rgba(255, 0, 127, 0.08)',
                       border: '1px solid rgba(255, 0, 127, 0.2)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       color: 'var(--accent-primary)',
+                      flexShrink: 0,
                     }}
                   >
-                    <MapPin size={18} />
+                    <MapPin size={16} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>LOCATION</div>
-                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.85rem' }}>
-                      New Delhi, India (Delhi Technological University)
+                    <div style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>LOCATION</div>
+                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.75rem' }}>
+                      New Delhi, India
                     </div>
                   </div>
                 </div>
@@ -151,12 +153,12 @@ export const Contact: React.FC = () => {
             <div
               className="glass"
               style={{
-                padding: '2.5rem',
+                padding: '1.8rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
                 height: '100%',
-                minHeight: '420px',
+                minHeight: '280px',
                 border: '1px solid var(--card-border)',
                 boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
               }}
