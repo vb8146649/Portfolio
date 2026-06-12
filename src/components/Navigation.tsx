@@ -117,8 +117,8 @@ export const Navigation: React.FC = () => {
         </div>
 
         {/* Desktop Links & Audio Controls */}
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="desktop-nav">
-          <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }} className="desktop-nav">
+          <nav style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
             {navItems.map((item) => {
               const isActive = activeSection === item.href.slice(1);
               return (
@@ -130,10 +130,11 @@ export const Navigation: React.FC = () => {
                   onClick={playClickSound}
                   style={{
                     color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                    fontSize: '0.9rem',
+                    fontSize: '0.85rem',
                     fontWeight: 600,
                     transition: 'color 0.25s',
                     position: 'relative',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {item.name}

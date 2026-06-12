@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { SplitText } from './SplitText';
 import { TiltCard } from './TiltCard';
-import { ExternalLink, Folder, Activity, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Folder, Activity, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GithubIcon } from './Icons';
 import { playHoverSound, playClickSound, playSuccessSound } from '../utils/audio';
 
@@ -18,6 +18,19 @@ interface ProjectItem {
 }
 
 export const Projects: React.FC = () => {
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 340; // card width + gap
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+      playClickSound();
+    }
+  };
+
   // Predefined list of real projects from Vishal's resume
   const projectList: ProjectItem[] = [
     {
@@ -93,29 +106,59 @@ export const Projects: React.FC = () => {
 
 
 
-        {/* Scalable Project Card Flex Row (Horizontal Scroll) */}
-        <div
-          className="projects-scrollbar"
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            width: '100%',
-            overflowX: 'auto',
-            padding: '0.5rem 0.25rem',
-            scrollSnapType: 'x mandatory',
-            scrollBehavior: 'smooth',
-            WebkitOverflowScrolling: 'touch',
-            flex: 1,
-            overflow: 'hidden',
-          }}
-        >
+        {/* Carousel Container with Navigation */}
+        <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {/* Left Carousel Button */}
+          <button
+            onClick={() => scroll('left')}
+            onMouseEnter={playHoverSound}
+            style={{
+              position: 'absolute',
+              left: '0',
+              zIndex: 20,
+              background: 'rgba(var(--accent-rgb), 0.15)',
+              border: '1px solid rgba(var(--accent-rgb), 0.3)',
+              color: 'var(--accent-primary)',
+              borderRadius: '50%',
+              width: '44px',
+              height: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+            }}
+            className="carousel-btn clickable"
+            title="Scroll left"
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          {/* Scalable Project Card Flex Row (Horizontal Scroll Carousel) */}
+          <div
+            ref={scrollContainerRef}
+            className="projects-scrollbar"
+            style={{
+              display: 'flex',
+              gap: '1.5rem',
+              width: '100%',
+              overflowX: 'auto',
+              overflowY: 'hidden',
+              padding: '1rem 50px',
+              scrollSnapType: 'x proximity',
+              scrollBehavior: 'smooth',
+              WebkitOverflowScrolling: 'touch',
+              flex: 1,
+            }}
+          >
           {projectList.map((project) => (
             <div 
               key={project.id} 
               style={{ 
-                flex: '0 0 280px', 
-                scrollSnapAlign: 'start', 
-                height: '100%' 
+                flex: '0 0 320px', 
+                scrollSnapAlign: 'center',
+                height: '400px',
+                minHeight: '400px',
               }}
             >
               <TiltCard maxTilt={8}>
@@ -238,6 +281,33 @@ export const Projects: React.FC = () => {
               </TiltCard>
             </div>
           ))}
+          </div>
+
+          {/* Right Carousel Button */}
+          <button
+            onClick={() => scroll('right')}
+            onMouseEnter={playHoverSound}
+            style={{
+              position: 'absolute',
+              right: '0',
+              zIndex: 20,
+              background: 'rgba(var(--accent-rgb), 0.15)',
+              border: '1px solid rgba(var(--accent-rgb), 0.3)',
+              color: 'var(--accent-primary)',
+              borderRadius: '50%',
+              width: '44px',
+              height: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+            }}
+            className="carousel-btn clickable"
+            title="Scroll right"
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
 
       </div>
