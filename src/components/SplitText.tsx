@@ -16,7 +16,7 @@ export const SplitText: React.FC<SplitTextProps> = ({
   duration = 0.5,
   stagger = 0.02,
 }) => {
-  const letters = Array.from(text);
+  const words = text.split(' ');
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -46,6 +46,8 @@ export const SplitText: React.FC<SplitTextProps> = ({
     },
   };
 
+  let globalCharIndex = 0;
+
   return (
     <motion.span
       style={{ display: 'inline-block', overflow: 'hidden' }}
@@ -55,18 +57,31 @@ export const SplitText: React.FC<SplitTextProps> = ({
       viewport={{ once: true, margin: '-10% 0px' }}
       className={className}
     >
-      {letters.map((char, index) => (
-        <motion.span
-          key={index}
-          variants={childVariants}
-          style={{
-            display: 'inline-block',
-            whiteSpace: char === ' ' ? 'pre' : 'normal',
-          }}
-        >
-          {char}
-        </motion.span>
-      ))}
+      {words.map((word, wordIndex) => {
+        const letters = Array.from(word);
+        return (
+          <span
+            key={wordIndex}
+            style={{ display: 'inline-block', whiteSpace: 'nowrap' }}
+          >
+            {letters.map((char) => {
+              const charKey = globalCharIndex++;
+              return (
+                <motion.span
+                  key={charKey}
+                  variants={childVariants}
+                  style={{ display: 'inline-block' }}
+                >
+                  {char}
+                </motion.span>
+              );
+            })}
+            {wordIndex < words.length - 1 && (
+              <span style={{ display: 'inline-block' }}>&nbsp;</span>
+            )}
+          </span>
+        );
+      })}
     </motion.span>
   );
 };

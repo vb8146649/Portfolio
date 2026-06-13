@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, ChevronUp, Trash2, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { playKeySound, playClickSound, playSuccessSound } from '../utils/audio';
 
 interface LogEntry {
   type: 'input' | 'output' | 'error';
@@ -22,15 +21,20 @@ export const TerminalWidget: React.FC = () => {
     { type: 'output', text: "Vishal's Portfolio Shell v1.0.0 initialized." },
     { type: 'output', text: 'Type "help" to list available commands.' },
   ]);
-  const [showMatrix, setShowMatrix] = useState(false);
-  
   const terminalEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const matrixCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Persist terminal open state
+  // Persist terminal open state and update layout class
   useEffect(() => {
     localStorage.setItem('terminalOpen', JSON.stringify(isOpen));
+    if (isOpen) {
+      document.body.classList.add('terminal-open');
+    } else {
+      document.body.classList.remove('terminal-open');
+    }
+    return () => {
+      document.body.classList.remove('terminal-open');
+    };
   }, [isOpen]);
 
   // Auto scroll
@@ -47,43 +51,6 @@ export const TerminalWidget: React.FC = () => {
     }
   };
 
-  // Matrix falling code effect
-  useEffect(() => {
-    if (!showMatrix || !isOpen || activeTab !== 'TERMINAL') return;
-    const canvas = matrixCanvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = canvas.parentElement?.clientWidth || 800;
-    canvas.height = 160;
-
-    const columns = Math.floor(canvas.width / 12);
-    const yPos = Array(columns).fill(0);
-
-    let matrixInterval = setInterval(() => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = '#00f3ff'; // Cyan neon matrix
-      ctx.font = '10px monospace';
-
-      for (let i = 0; i < yPos.length; i++) {
-        const char = String.fromCharCode(33 + Math.floor(Math.random() * 93));
-        const x = i * 12;
-        const y = yPos[i];
-        ctx.fillText(char, x, y);
-
-        if (y > 80 + Math.random() * 10000) {
-          yPos[i] = 0;
-        } else {
-          yPos[i] += 12;
-        }
-      }
-    }, 45);
-
-    return () => clearInterval(matrixInterval);
-  }, [showMatrix, isOpen, activeTab]);
 
   const handleCommand = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,7 +66,7 @@ export const TerminalWidget: React.FC = () => {
           { type: 'output', text: '  about        - View developer profile' },
           { type: 'output', text: '  skills       - Query technical skills' },
           { type: 'output', text: '  projects     - Query code projects' },
-          { type: 'output', text: '  matrix       - Toggle screen matrix rain' },
+
           { type: 'output', text: '  easter-egg   - Trigger confetti celebration' },
           { type: 'output', text: '  clear        - Clear console buffer' },
           { type: 'output', text: '  help         - Print command list' }
@@ -127,10 +94,7 @@ export const TerminalWidget: React.FC = () => {
           { type: 'output', text: '4. Robotics CV Track - OpenCV and Python target detection' }
         );
         break;
-      case 'matrix':
-        setShowMatrix(!showMatrix);
-        newLogs.push({ type: 'output', text: showMatrix ? 'Matrix rain deactivated.' : 'Matrix rain activated!' });
-        break;
+
       case 'easter-egg':
         confetti({
           particleCount: 120,
@@ -145,13 +109,9 @@ export const TerminalWidget: React.FC = () => {
         setInput('');
         return;
       default:
-        playClickSound();
         newLogs.push({ type: 'error', text: `Command not found: "${cmd}". Type "help" to view directory commands.` });
     }
 
-    if (cmd !== 'clear') {
-      playSuccessSound();
-    }
     setHistory(newLogs);
     setInput('');
   };
@@ -192,7 +152,6 @@ export const TerminalWidget: React.FC = () => {
           {/* Collapse toggle click zone */}
           <div
             onClick={() => {
-              playClickSound();
               setIsOpen(!isOpen);
             }}
             className="clickable"
@@ -216,7 +175,6 @@ export const TerminalWidget: React.FC = () => {
                 <button
                   key={tab}
                   onClick={() => {
-                    playClickSound();
                     setActiveTab(tab);
                   }}
                   style={{
@@ -249,7 +207,6 @@ export const TerminalWidget: React.FC = () => {
           <div style={{ display: 'flex', gap: '0.8rem', color: 'var(--text-secondary)' }}>
             <button
               onClick={() => {
-                playClickSound();
                 setHistory([]);
               }}
               style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
@@ -259,7 +216,6 @@ export const TerminalWidget: React.FC = () => {
             </button>
             <button
               onClick={() => {
-                playClickSound();
                 setIsOpen(false);
               }}
               style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
@@ -304,11 +260,6 @@ export const TerminalWidget: React.FC = () => {
                 </div>
               ))}
 
-              {showMatrix && (
-                <div style={{ position: 'relative', height: '160px', margin: '0.5rem 0', borderRadius: '4px', overflow: 'hidden' }}>
-                  <canvas ref={matrixCanvasRef} style={{ display: 'block', width: '100%', height: '160px' }} />
-                </div>
-              )}
 
               <div ref={terminalEndRef} />
 
@@ -330,7 +281,6 @@ export const TerminalWidget: React.FC = () => {
                   value={input}
                   onChange={(e) => {
                     setInput(e.target.value);
-                    playKeySound();
                   }}
                   style={{
                     flex: 1,

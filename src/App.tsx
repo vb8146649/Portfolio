@@ -1,6 +1,6 @@
 import { Navigation } from './components/Navigation';
 import { CustomCursor } from './components/CustomCursor';
-import { ThemeSwitcher } from './components/ThemeSwitcher';
+import { ScrollProgress } from './components/ScrollProgress';
 import { Hero } from './components/Hero';
 import { Projects } from './components/Projects';
 import { Skills } from './components/Skills';
@@ -12,7 +12,7 @@ function App() {
     <>
       {/* Interactive Utilities */}
       <CustomCursor />
-      <ThemeSwitcher />
+      <ScrollProgress />
 
       {/* Experiential Overlays */}
       <div className="cyber-grid" />
@@ -24,8 +24,8 @@ function App() {
       {/* Portfolio sections */}
       <main>
         <Hero />
-        <Projects />
         <Skills />
+        <Projects />
         <Contact />
       </main>
 

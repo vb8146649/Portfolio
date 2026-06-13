@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Palette, Check } from 'lucide-react';
-import { playHoverSound, playClickSound } from '../utils/audio';
 
 type Theme = 'default' | 'emerald' | 'solarized' | 'ocean';
 
@@ -50,38 +49,35 @@ export const ThemeSwitcher: React.FC = () => {
   return (
     <div
       style={{
-        position: 'fixed',
-        top: '1.5rem',
-        right: '1.5rem',
-        zIndex: 1000,
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
+        zIndex: 1000,
       }}
     >
       {/* Floating Button */}
       <button
         onClick={() => {
-          playClickSound();
           setIsOpen(!isOpen);
         }}
-        onMouseEnter={playHoverSound}
         className="glass clickable"
         style={{
-          width: '44px',
-          height: '44px',
+          width: '36px',
+          height: '36px',
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           color: 'var(--text-primary)',
           cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '1px solid var(--card-border)',
+          background: 'rgba(255, 255, 255, 0.03)',
           outline: 'none',
         }}
         aria-label="Change Theme"
       >
-        <Palette size={20} style={{ transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.3s' }} />
+        <Palette size={16} style={{ transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 0.3s' }} />
       </button>
 
       {/* Popover */}
@@ -89,12 +85,15 @@ export const ThemeSwitcher: React.FC = () => {
         <div
           className="glass"
           style={{
-            marginTop: '0.75rem',
+            position: 'absolute',
+            top: '2.75rem',
+            right: 0,
             padding: '1rem',
             width: '220px',
             boxShadow: '0 10px 25px rgba(0,0,0,0.4), 0 0 15px var(--glow-color)',
-            animation: 'fadeIn 0.25s ease-out',
+            animation: 'themeFadeIn 0.25s ease-out',
             transformOrigin: 'top right',
+            zIndex: 1001,
           }}
         >
           <h4
@@ -104,6 +103,7 @@ export const ThemeSwitcher: React.FC = () => {
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               marginBottom: '0.75rem',
+              fontFamily: 'Orbitron, sans-serif'
             }}
           >
             Select Accent
@@ -113,10 +113,8 @@ export const ThemeSwitcher: React.FC = () => {
               <button
                 key={theme.id}
                 onClick={() => {
-                  playClickSound();
                   handleThemeChange(theme.id);
                 }}
-                onMouseEnter={playHoverSound}
                 className="clickable"
                 style={{
                   display: 'flex',
@@ -133,6 +131,7 @@ export const ThemeSwitcher: React.FC = () => {
                   fontSize: '0.9rem',
                   fontWeight: 500,
                   transition: 'all 0.2s',
+                  fontFamily: 'JetBrains Mono, monospace'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
@@ -146,7 +145,7 @@ export const ThemeSwitcher: React.FC = () => {
                       border: '1px solid rgba(255,255,255,0.2)',
                     }}
                   />
-                  <span>{theme.name}</span>
+                  <span>{theme.name.split(' ')[1] || theme.name}</span>
                 </div>
                 {activeTheme === theme.id && <Check size={14} style={{ color: 'var(--accent-primary)' }} />}
               </button>
@@ -155,7 +154,7 @@ export const ThemeSwitcher: React.FC = () => {
         </div>
       )}
       <style>{`
-        @keyframes fadeIn {
+        @keyframes themeFadeIn {
           from { opacity: 0; transform: scale(0.95) translateY(-10px); }
           to { opacity: 1; transform: scale(1) translateY(0); }
         }

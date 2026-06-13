@@ -1,23 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Terminal as TerminalIcon, Volume2, VolumeX } from 'lucide-react';
+import { Menu, X, Terminal as TerminalIcon } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { playHoverSound, playClickSound, playSuccessSound, setMuted, getMuted } from '../utils/audio';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 export const Navigation: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isMutedState, setIsMutedState] = React.useState(getMuted());
   const [activeSection, setActiveSection] = React.useState('home');
 
   const navItems = [
     { name: 'Home', href: '#home' },
-    { name: 'Projects', href: '#projects' },
     { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
     { name: 'Contact', href: '#contact' },
   ];
 
   React.useEffect(() => {
-    const sections = ['home', 'projects', 'skills', 'contact'];
+    const sections = ['home', 'skills', 'projects', 'contact'];
     const observers = sections.map((id) => {
       const el = document.getElementById(id);
       if (!el) return null;
@@ -45,19 +44,7 @@ export const Navigation: React.FC = () => {
     };
   }, []);
 
-  const toggleMute = () => {
-    const newState = !isMutedState;
-    setIsMutedState(newState);
-    setMuted(newState);
-    if (!newState) {
-      playSuccessSound();
-    } else {
-      playClickSound();
-    }
-  };
-
   const triggerLogoEasterEgg = () => {
-    playSuccessSound();
     confetti({
       particleCount: 80,
       angle: 60,
@@ -106,8 +93,6 @@ export const Navigation: React.FC = () => {
         {/* Logo */}
         <div
           onDoubleClick={triggerLogoEasterEgg}
-          onMouseEnter={playHoverSound}
-          onClick={playClickSound}
           className="nav-logo clickable gradient-text"
           style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
           title="Double click for a surprise!"
@@ -116,8 +101,8 @@ export const Navigation: React.FC = () => {
           <span>PORTFOLIO</span>
         </div>
 
-        {/* Desktop Links & Audio Controls */}
-        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }} className="desktop-nav">
+        {/* Desktop Links */}
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }} className="desktop-nav">
           <nav style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
             {navItems.map((item) => {
               const isActive = activeSection === item.href.slice(1);
@@ -126,8 +111,6 @@ export const Navigation: React.FC = () => {
                   key={item.name}
                   href={item.href}
                   className={`clickable nav-link ${isActive ? 'active' : ''}`}
-                  onMouseEnter={playHoverSound}
-                  onClick={playClickSound}
                   style={{
                     color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                     fontSize: '0.85rem',
@@ -142,55 +125,13 @@ export const Navigation: React.FC = () => {
               );
             })}
           </nav>
-
-          <span style={{ color: 'var(--card-border)', height: '20px', width: '1px', backgroundColor: 'var(--card-border)' }} />
-
-          {/* Audio toggle button */}
-          <button
-            onClick={toggleMute}
-            onMouseEnter={playHoverSound}
-            className="clickable"
-            style={{
-              background: 'none',
-              color: isMutedState ? 'var(--text-secondary)' : 'var(--accent-primary)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '6px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255,255,255,0.02)',
-              border: '1px solid var(--card-border)',
-              transition: 'all 0.2s',
-            }}
-            title={isMutedState ? 'Unmute Audio Interface' : 'Mute Audio Interface'}
-          >
-            {isMutedState ? <VolumeX size={16} /> : <Volume2 size={16} />}
-          </button>
+          <div style={{ width: '1px', height: '18px', backgroundColor: 'var(--card-border)' }} />
+          <ThemeSwitcher />
         </div>
 
-        {/* Mobile Toggle & Audio button */}
+        {/* Mobile Toggle */}
         <div style={{ display: 'none', gap: '1rem', alignItems: 'center' }} className="mobile-nav-controls">
-          <button
-            onClick={toggleMute}
-            onMouseEnter={playHoverSound}
-            className="clickable"
-            style={{
-              background: 'none',
-              color: isMutedState ? 'var(--text-secondary)' : 'var(--accent-primary)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '6px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255,255,255,0.02)',
-              border: '1px solid var(--card-border)',
-            }}
-          >
-            {isMutedState ? <VolumeX size={16} /> : <Volume2 size={16} />}
-          </button>
-          
+          <ThemeSwitcher />
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="clickable mobile-toggle"
@@ -231,10 +172,8 @@ export const Navigation: React.FC = () => {
                 key={item.name}
                 href={item.href}
                 onClick={() => {
-                  playClickSound();
                   setIsOpen(false);
                 }}
-                onMouseEnter={playHoverSound}
                 className={`clickable nav-link ${isActive ? 'active' : ''}`}
                 style={{
                   color: isActive ? 'var(--accent-primary)' : 'var(--text-secondary)',

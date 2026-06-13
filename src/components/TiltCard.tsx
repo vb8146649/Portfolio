@@ -5,6 +5,7 @@ interface TiltCardProps {
   className?: string;
   maxTilt?: number; // Maximum rotation in degrees
   perspective?: number; // Perspective distance in pixels
+  style?: React.CSSProperties;
 }
 
 export const TiltCard: React.FC<TiltCardProps> = ({
@@ -12,6 +13,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
   className = '',
   maxTilt = 15,
   perspective = 1000,
+  style = {},
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({
@@ -80,6 +82,7 @@ export const TiltCard: React.FC<TiltCardProps> = ({
       style={{
         position: 'relative',
         transformStyle: 'preserve-3d',
+        ...style,
         ...tiltStyle,
       }}
     >
