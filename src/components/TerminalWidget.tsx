@@ -10,10 +10,12 @@ interface LogEntry {
 type TabType = 'TERMINAL' | 'PROBLEMS' | 'OUTPUT' | 'DEBUG_CONSOLE';
 
 export const TerminalWidget: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(() => {
-    if (typeof window === 'undefined') return true;
+    if (typeof window === 'undefined') return false;
     const saved = localStorage.getItem('terminalOpen');
-    return saved ? JSON.parse(saved) : true;
+    if (saved !== null) return JSON.parse(saved);
+    return window.innerWidth > 768; // Default to closed on mobile
   });
   const [activeTab, setActiveTab] = useState<TabType>('TERMINAL');
   const [input, setInput] = useState('');
@@ -23,6 +25,16 @@ export const TerminalWidget: React.FC = () => {
   ]);
   const terminalEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Resize listener for responsive layout adjustments
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Persist terminal open state and update layout class
   useEffect(() => {
@@ -130,7 +142,7 @@ export const TerminalWidget: React.FC = () => {
         fontFamily: 'JetBrains Mono, monospace',
         display: 'flex',
         flexDirection: 'column',
-        height: isOpen ? '280px' : '36px',
+        height: isOpen ? (isMobile ? '185px' : '280px') : '36px',
         transition: 'height 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
         overflow: 'hidden',
       }}

@@ -8,6 +8,7 @@ import { GithubIcon, LinkedinIcon } from './Icons';
 
 export const Hero: React.FC = () => {
   const [activeTheme, setActiveTheme] = React.useState<'default' | 'emerald' | 'solarized' | 'ocean'>('default');
+  const [isMobile, setIsMobile] = React.useState(false);
 
   const themes = [
     { id: 'default', name: 'Electric Obsidian', color: '#8b5cf6' },
@@ -17,6 +18,12 @@ export const Hero: React.FC = () => {
   ] as const;
 
   React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
     const getSavedTheme = () => {
       const savedTheme = localStorage.getItem('portfolio-theme') as any;
       if (savedTheme && ['default', 'emerald', 'solarized', 'ocean'].includes(savedTheme)) {
@@ -32,7 +39,10 @@ export const Hero: React.FC = () => {
     };
 
     window.addEventListener('themechange', handleThemeChange);
-    return () => window.removeEventListener('themechange', handleThemeChange);
+    return () => {
+      window.removeEventListener('themechange', handleThemeChange);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const changeTheme = (theme: 'default' | 'emerald' | 'solarized' | 'ocean') => {
@@ -192,14 +202,14 @@ export const Hero: React.FC = () => {
               <div
                 className="glass"
                 style={{
-                  width: '320px',
-                  height: '420px',
+                  width: isMobile ? '280px' : '320px',
+                  height: isMobile ? '380px' : '420px',
                   position: 'relative',
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  padding: '2rem',
+                  padding: isMobile ? '1.5rem' : '2rem',
                   boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
                   border: '1px solid var(--card-border)',
                 }}
@@ -277,111 +287,115 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Bottom Left Theme Selector */}
-      <div
-        className="glass"
-        style={{
-          position: 'absolute',
-          bottom: '2rem',
-          left: '2rem',
-          padding: '0.5rem 0.8rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.3rem',
-          zIndex: 10,
-          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-          border: '1px solid var(--card-border)',
-        }}
-      >
-        <span
+      {!isMobile && (
+        <div
+          className="glass"
           style={{
-            fontFamily: 'Orbitron, sans-serif',
-            fontSize: '0.7rem',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            color: 'var(--text-secondary)',
-            textTransform: 'uppercase',
+            position: 'absolute',
+            bottom: '2rem',
+            left: '2rem',
+            padding: '0.5rem 0.8rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.3rem',
+            zIndex: 10,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+            border: '1px solid var(--card-border)',
           }}
         >
-          Select Theme
-        </span>
-        <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
-          {themes.map((t) => {
-            const isSelected = activeTheme === t.id;
-            return (
-              <button
-                key={t.id}
-                onClick={() => changeTheme(t.id)}
-                className="clickable"
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  borderRadius: '50%',
-                  backgroundColor: t.color,
-                  border: isSelected ? '1.5px solid #fff' : '1.5px solid transparent',
-                  boxShadow: isSelected 
-                    ? `0 0 8px ${t.color}` 
-                    : 'none',
-                  cursor: 'pointer',
-                  padding: 0,
-                  outline: 'none',
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                title={t.name}
-              />
-            );
-          })}
+          <span
+            style={{
+              fontFamily: 'Orbitron, sans-serif',
+              fontSize: '0.7rem',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              color: 'var(--text-secondary)',
+              textTransform: 'uppercase',
+            }}
+          >
+            Select Theme
+          </span>
+          <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+            {themes.map((t) => {
+              const isSelected = activeTheme === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => changeTheme(t.id)}
+                  className="clickable"
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    backgroundColor: t.color,
+                    border: isSelected ? '1.5px solid #fff' : '1.5px solid transparent',
+                    boxShadow: isSelected 
+                      ? `0 0 8px ${t.color}` 
+                      : 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    outline: 'none',
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  title={t.name}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Scroll Down Mouse Indicator */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.5rem',
-          color: 'var(--text-secondary)',
-          fontSize: '0.8rem',
-          fontFamily: 'Orbitron, sans-serif',
-          letterSpacing: '0.1em',
-          pointerEvents: 'none',
-          zIndex: 3,
-        }}
-      >
-        <span>SCROLL DOWN</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+      {!isMobile && (
+        <div
           style={{
-            width: '20px',
-            height: '32px',
-            borderRadius: '10px',
-            border: '2px solid var(--text-secondary)',
-            position: 'relative',
+            position: 'absolute',
+            bottom: '2rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
             display: 'flex',
-            justifyContent: 'center',
-            paddingTop: '6px',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.5rem',
+            color: 'var(--text-secondary)',
+            fontSize: '0.8rem',
+            fontFamily: 'Orbitron, sans-serif',
+            letterSpacing: '0.1em',
+            pointerEvents: 'none',
+            zIndex: 3,
           }}
         >
+          <span>SCROLL DOWN</span>
           <motion.div
-            animate={{ opacity: [1, 0, 1], y: [0, 6, 0] }}
+            animate={{ y: [0, 8, 0] }}
             transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
             style={{
-              width: '4px',
-              height: '8px',
-              backgroundColor: 'var(--accent-secondary)',
-              borderRadius: '2px',
+              width: '20px',
+              height: '32px',
+              borderRadius: '10px',
+              border: '2px solid var(--text-secondary)',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              paddingTop: '6px',
             }}
-          />
-        </motion.div>
-      </div>
+          >
+            <motion.div
+              animate={{ opacity: [1, 0, 1], y: [0, 6, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+              style={{
+                width: '4px',
+                height: '8px',
+                backgroundColor: 'var(--accent-secondary)',
+                borderRadius: '2px',
+              }}
+            />
+          </motion.div>
+        </div>
+      )}
     </section>
   );
 };

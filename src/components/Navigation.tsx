@@ -78,7 +78,7 @@ export const Navigation: React.FC = () => {
       }}
     >
       <div
-        className="glass"
+        className="glass glass-nav"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -217,6 +217,9 @@ export const Navigation: React.FC = () => {
           }
           .mobile-nav-controls {
             display: flex !important;
+          }
+          .glass-nav {
+            padding: 0.5rem 1.2rem !important;
           }
         }
       `}</style>

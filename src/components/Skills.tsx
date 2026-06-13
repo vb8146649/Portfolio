@@ -35,6 +35,7 @@ export const Skills: React.FC = () => {
   const [hoveredPlanet, setHoveredPlanet] = useState<PlanetInfo | null>(null);
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetInfo | null>(null);
   const [showZoomHint, setShowZoomHint] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Interactive view states matching image.png's flat, sweep projection by default
   const [systemTilt, setSystemTilt] = useState(30); // pitch (degrees)
@@ -177,10 +178,12 @@ export const Skills: React.FC = () => {
   // Window resize scale adjustment
   useEffect(() => {
     const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
       if (window.innerWidth < 480) {
-        setMobileScale(0.45);
+        setMobileScale(0.28); // even smaller so that it fits nicely on a 360px screen by default
       } else if (window.innerWidth < 768) {
-        setMobileScale(0.58);
+        setMobileScale(0.42);
       } else {
         setMobileScale(0.78);
       }
@@ -337,10 +340,11 @@ export const Skills: React.FC = () => {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: isMobile ? 'flex-start' : 'center',
         boxSizing: 'border-box',
         // Deep stellar background
-        background: 'radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.1) 0%, rgba(139, 92, 246, 0.05) 45%, #03060f 100%)'
+        background: 'radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.1) 0%, rgba(139, 92, 246, 0.05) 45%, #03060f 100%)',
+        padding: isMobile ? '100px 1rem 60px 1rem' : '0'
       }}
     >
 
@@ -371,17 +375,17 @@ export const Skills: React.FC = () => {
         }}
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%', height: isMobile ? 'auto' : '100%', display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', justifyContent: 'center' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.96, filter: 'blur(10px)' }}
           whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
           viewport={{ once: false, amount: 0.1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}
+          style={{ width: '100%', height: isMobile ? 'auto' : '100%', display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', justifyContent: 'center', position: 'relative' }}
         >
 
           {/* Section Heading - positioned as overlay */}
-          <div style={{ position: 'absolute', top: '2rem', left: '2rem', zIndex: 5, textAlign: 'left', maxWidth: '45%' }}>
+          <div style={isMobile ? { position: 'relative', width: '100%', textAlign: 'center', marginBottom: '1.5rem', zIndex: 5 } : { position: 'absolute', top: '2rem', left: '2rem', zIndex: 5, textAlign: 'left', maxWidth: '45%' }}>
             <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>
               <SplitText text="Technical Arsenal" duration={0.5} stagger={0.03} />
             </h2>
@@ -392,7 +396,14 @@ export const Skills: React.FC = () => {
 
           {/* Full page Space Canvas & Telemetry Scan HUD */}
           <div
-            style={{
+            style={isMobile ? {
+              position: 'relative',
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
+              alignItems: 'center'
+            } : {
               position: 'absolute',
               top: 0,
               left: 0,
@@ -414,17 +425,17 @@ export const Skills: React.FC = () => {
               onTouchMove={handleTouchMove}
               onTouchEnd={handleMouseUp}
               style={{
-                position: 'absolute',
+                position: isMobile ? 'relative' : 'absolute',
                 width: '100%',
-                height: '100%',
+                height: isMobile ? '380px' : '100%',
                 top: 0,
                 left: 0,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: 'transparent',
-                borderRadius: '0',
-                border: 'none',
+                borderRadius: isMobile ? '8px' : '0',
+                border: isMobile ? '1px solid rgba(0, 243, 255, 0.1)' : 'none',
                 boxShadow: 'none',
                 overflow: 'hidden',
                 cursor: isDragging ? 'grabbing' : 'grab',
@@ -654,7 +665,23 @@ export const Skills: React.FC = () => {
 
             {/* Sidebar View Control HUD (Left bottom) */}
             <div
-              style={{
+              style={isMobile ? {
+                position: 'absolute',
+                bottom: '10px',
+                left: '10px',
+                zIndex: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.6rem',
+                background: 'rgba(7, 12, 24, 0.75)',
+                backdropFilter: 'blur(10px)',
+                padding: '0.6rem',
+                borderRadius: '8px',
+                border: '1px solid var(--card-border)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
+                transform: 'scale(0.85)',
+                transformOrigin: 'bottom left',
+              } : {
                 position: 'absolute',
                 bottom: '2rem',
                 left: '2rem',
@@ -760,16 +787,27 @@ export const Skills: React.FC = () => {
 
             </div>
 
-            {/* Right Column: Holographic Skills Scan HUD (Conditionally shown on top-right of solar system) */}
             <AnimatePresence>
               {activeInfo && (
                 <motion.div
                   className="glass"
-                  initial={{ opacity: 0, x: 50, scale: 0.95 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: 50, scale: 0.95 }}
+                  initial={isMobile ? { opacity: 0, y: 20, scale: 0.95 } : { opacity: 0, x: 50, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                  exit={isMobile ? { opacity: 0, y: 20, scale: 0.95 } : { opacity: 0, x: 50, scale: 0.95 }}
                   transition={{ duration: 0.35, ease: 'easeOut' }}
-                  style={{
+                  style={isMobile ? {
+                    width: '100%',
+                    padding: '1.2rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    border: '1px solid var(--card-border)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 15px rgba(139, 92, 246, 0.15)',
+                    position: 'relative',
+                    overflow: 'visible',
+                    zIndex: 10,
+                    boxSizing: 'border-box',
+                    marginTop: '1.5rem',
+                  } : {
                     width: 'min(350px, 35vw)',
                     maxHeight: 'min(550px, 65vh)',
                     padding: '1.5rem',

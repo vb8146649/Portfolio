@@ -20,10 +20,20 @@ interface ProjectItem {
 
 export const Projects: React.FC = () => {
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 350; // card width + gap
+      const scrollAmount = isMobile ? 296 : 350; // card width + gap
       scrollContainerRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
@@ -117,29 +127,31 @@ export const Projects: React.FC = () => {
           {/* Carousel Container with Navigation */}
           <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center', gap: '1rem' }}>
             {/* Left Carousel Button */}
-            <button
-              onClick={() => scroll('left')}
-              style={{
-                position: 'absolute',
-                left: '0',
-                zIndex: 20,
-                background: 'rgba(var(--accent-rgb), 0.15)',
-                border: '1px solid rgba(var(--accent-rgb), 0.3)',
-                color: 'var(--accent-primary)',
-                borderRadius: '50%',
-                width: '44px',
-                height: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-              }}
-              className="carousel-btn clickable"
-              title="Scroll left"
-            >
-              <ChevronLeft size={20} />
-            </button>
+            {!isMobile && (
+              <button
+                onClick={() => scroll('left')}
+                style={{
+                  position: 'absolute',
+                  left: '0',
+                  zIndex: 20,
+                  background: 'rgba(var(--accent-rgb), 0.15)',
+                  border: '1px solid rgba(var(--accent-rgb), 0.3)',
+                  color: 'var(--accent-primary)',
+                  borderRadius: '50%',
+                  width: '44px',
+                  height: '44px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                }}
+                className="carousel-btn clickable"
+                title="Scroll left"
+              >
+                <ChevronLeft size={20} />
+              </button>
+            )}
 
             {/* Horizontal Scroll Carousel for Custom Cyberpunk Cards */}
             <div
@@ -147,11 +159,11 @@ export const Projects: React.FC = () => {
               className="projects-scrollbar"
               style={{
                 display: 'flex',
-                gap: '1.8rem',
+                gap: isMobile ? '1rem' : '1.8rem',
                 width: '100%',
                 overflowX: 'auto',
                 overflowY: 'hidden',
-                padding: '2.5rem 50px',
+                padding: isMobile ? '1.5rem 15px' : '2.5rem 50px',
                 scrollSnapType: 'x proximity',
                 scrollBehavior: 'smooth',
                 WebkitOverflowScrolling: 'touch',
@@ -162,7 +174,7 @@ export const Projects: React.FC = () => {
                 <div
                   key={project.id}
                   style={{
-                    flex: '0 0 320px',
+                    flex: isMobile ? '0 0 280px' : '0 0 320px',
                     scrollSnapAlign: 'center',
                     height: '440px',
                     position: 'relative',
@@ -173,11 +185,11 @@ export const Projects: React.FC = () => {
                     <div
                       style={{
                         height: '440px',
-                        width: '300px',
+                        width: isMobile ? '260px' : '300px',
                         background: 'linear-gradient(180deg, #0d1527 0%, #050810 100%)',
                         border: `2px solid ${project.avgColor}`,
                         borderRadius: '12px',
-                        padding: '1.2rem',
+                        padding: isMobile ? '1rem 0.8rem' : '1.2rem',
                         boxShadow: `0 0 20px rgba(${project.avgColorRgb}, 0.15), inset 0 0 15px rgba(${project.avgColorRgb}, 0.05)`,
                         display: 'flex',
                         flexDirection: 'column',
@@ -267,8 +279,8 @@ export const Projects: React.FC = () => {
                       {/* Middle Header Banner Bar */}
                       <div
                         style={{
-                          width: 'calc(100% + 2.4rem)',
-                          marginLeft: '-1.2rem',
+                          width: isMobile ? 'calc(100% + 1.6rem)' : 'calc(100% + 2.4rem)',
+                          marginLeft: isMobile ? '-0.8rem' : '-1.2rem',
                           height: '40px',
                           background: `linear-gradient(90deg, rgba(${project.avgColorRgb}, 0.05) 0%, rgba(${project.avgColorRgb}, 0.25) 50%, rgba(${project.avgColorRgb}, 0.05) 100%)`,
                           borderTop: `2.5px solid ${project.avgColor}`,
@@ -448,29 +460,31 @@ export const Projects: React.FC = () => {
             </div>
 
             {/* Right Carousel Button */}
-            <button
-              onClick={() => scroll('right')}
-              style={{
-                position: 'absolute',
-                right: '0',
-                zIndex: 20,
-                background: 'rgba(var(--accent-rgb), 0.15)',
-                border: '1px solid rgba(var(--accent-rgb), 0.3)',
-                color: 'var(--accent-primary)',
-                borderRadius: '50%',
-                width: '44px',
-                height: '44px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-              }}
-              className="carousel-btn clickable"
-              title="Scroll right"
-            >
-              <ChevronRight size={20} />
-            </button>
+            {!isMobile && (
+              <button
+                onClick={() => scroll('right')}
+                style={{
+                  position: 'absolute',
+                  right: '0',
+                  zIndex: 20,
+                  background: 'rgba(var(--accent-rgb), 0.15)',
+                  border: '1px solid rgba(var(--accent-rgb), 0.3)',
+                  color: 'var(--accent-primary)',
+                  borderRadius: '50%',
+                  width: '44px',
+                  height: '44px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                }}
+                className="carousel-btn clickable"
+                title="Scroll right"
+              >
+                <ChevronRight size={20} />
+              </button>
+            )}
           </div>
         </motion.div>
 

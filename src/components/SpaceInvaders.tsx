@@ -903,10 +903,10 @@ export const SpaceInvaders: React.FC = () => {
         />
 
         {/* Telemetry Labels */}
-        <div style={{ position: 'absolute', top: '8px', left: '10px', fontSize: '0.7rem', fontFamily: 'JetBrains Mono, monospace', color: 'rgba(255, 255, 255, 0.35)', pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', top: '28px', left: '10px', fontSize: '0.7rem', fontFamily: 'JetBrains Mono, monospace', color: 'rgba(255, 255, 255, 0.35)', pointerEvents: 'none' }}>
           ROM: SP_INV_v1.0
         </div>
-        <div style={{ position: 'absolute', top: '8px', right: '10px', fontSize: '0.7rem', fontFamily: 'JetBrains Mono, monospace', color: 'var(--accent-secondary)', pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', top: '28px', right: '10px', fontSize: '0.7rem', fontFamily: 'JetBrains Mono, monospace', color: 'var(--accent-secondary)', pointerEvents: 'none' }}>
           FPS: 60 // EMULATED
         </div>
       </div>
