@@ -759,3 +759,31 @@ h3 {
     font-size: clamp(1.2rem, 3vw, 1.8rem);
   }
 }
+
+/* Offset body height to prevent terminal widget overlaps */
+body {
+  padding-bottom: 36px !important; /* Space for collapsed terminal bar */
+}
+
+body.terminal-open {
+  padding-bottom: 280px !important; /* Space for open terminal on desktop */
+}
+
+@media (max-width: 1024px) {
+  body.terminal-open {
+    padding-bottom: 185px !important; /* Space for open terminal on mobile/tablet */
+  }
+}
+
+/* Navigation Layout display styles */
+.desktop-nav {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.mobile-nav-controls {
+  display: none;
+  gap: 1rem;
+  align-items: center;
+}

@@ -62,22 +62,29 @@ export const Navigation: React.FC = () => {
   };
 
   return (
-    <motion.header
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <div
       style={{
         position: 'fixed',
         top: '1.5rem',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '90%',
-        maxWidth: '1000px',
+        left: 0,
+        right: 0,
+        display: 'flex',
+        justifyContent: 'center',
         zIndex: 999,
         pointerEvents: 'none',
       }}
     >
-      <div
+      <motion.header
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        style={{
+          width: '90%',
+          maxWidth: '1000px',
+          pointerEvents: 'none',
+        }}
+      >
+        <div
         className="glass glass-nav"
         style={{
           display: 'flex',
@@ -102,7 +109,7 @@ export const Navigation: React.FC = () => {
         </div>
 
         {/* Desktop Links */}
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }} className="desktop-nav">
+        <div className="desktop-nav">
           <nav style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
             {navItems.map((item) => {
               const isActive = activeSection === item.href.slice(1);
@@ -130,7 +137,7 @@ export const Navigation: React.FC = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <div style={{ display: 'none', gap: '1rem', alignItems: 'center' }} className="mobile-nav-controls">
+        <div className="mobile-nav-controls">
           <ThemeSwitcher />
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -141,6 +148,9 @@ export const Navigation: React.FC = () => {
               color: 'var(--text-primary)',
               cursor: 'pointer',
               padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             {isOpen ? <X size={22} /> : <Menu size={22} />}
@@ -211,7 +221,7 @@ export const Navigation: React.FC = () => {
           width: 100%;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .desktop-nav {
             display: none !important;
           }
@@ -224,5 +234,6 @@ export const Navigation: React.FC = () => {
         }
       `}</style>
     </motion.header>
+    </div>
   );
 };

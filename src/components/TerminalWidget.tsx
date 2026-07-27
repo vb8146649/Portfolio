@@ -15,7 +15,7 @@ export const TerminalWidget: React.FC = () => {
     if (typeof window === 'undefined') return false;
     const saved = localStorage.getItem('terminalOpen');
     if (saved !== null) return JSON.parse(saved);
-    return window.innerWidth > 768; // Default to closed on mobile
+    return window.innerWidth > 1024; // Default to closed on mobile/tablet
   });
   const [activeTab, setActiveTab] = useState<TabType>('TERMINAL');
   const [input, setInput] = useState('');
@@ -29,7 +29,7 @@ export const TerminalWidget: React.FC = () => {
   // Resize listener for responsive layout adjustments
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1025);
     };
     handleResize();
     window.addEventListener('resize', handleResize);

@@ -178,12 +178,14 @@ export const Skills: React.FC = () => {
   // Window resize scale adjustment
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < 768;
+      const mobile = window.innerWidth < 1025;
       setIsMobile(mobile);
       if (window.innerWidth < 480) {
         setMobileScale(0.28); // even smaller so that it fits nicely on a 360px screen by default
       } else if (window.innerWidth < 768) {
         setMobileScale(0.42);
+      } else if (window.innerWidth < 1025) {
+        setMobileScale(0.5); // tablet stacked scale
       } else {
         setMobileScale(0.78);
       }
@@ -414,35 +416,44 @@ export const Skills: React.FC = () => {
               justifyContent: 'center',
             }}
           >
-            {/* Viewport Dragging area - Full page */}
+            {/* Relative wrapper for canvas & telemetry controls */}
             <div
-              ref={containerRef}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleMouseUp}
               style={{
                 position: isMobile ? 'relative' : 'absolute',
                 width: '100%',
-                height: isMobile ? '380px' : '100%',
+                height: isMobile ? (window.innerWidth < 1025 && window.innerWidth >= 768 ? '450px' : '380px') : '100%',
                 top: 0,
                 left: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
                 borderRadius: isMobile ? '8px' : '0',
                 border: isMobile ? '1px solid rgba(0, 243, 255, 0.1)' : 'none',
-                boxShadow: 'none',
                 overflow: 'hidden',
-                cursor: isDragging ? 'grabbing' : 'grab',
-                transformStyle: 'preserve-3d',
-                perspective: '1400px',
               }}
             >
+              {/* Viewport Dragging area - Full page */}
+              <div
+                ref={containerRef}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleMouseUp}
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: 0,
+                  left: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  cursor: isDragging ? 'grabbing' : 'grab',
+                  transformStyle: 'preserve-3d',
+                  perspective: '1400px',
+                }}
+              >
               {/* Ecliptic Grid Plane - rotates with dragging */}
               <div
                 style={{
@@ -786,6 +797,7 @@ export const Skills: React.FC = () => {
               </div>
 
             </div>
+          </div>
 
             <AnimatePresence>
               {activeInfo && (
@@ -797,7 +809,9 @@ export const Skills: React.FC = () => {
                   transition={{ duration: 0.35, ease: 'easeOut' }}
                   style={isMobile ? {
                     width: '100%',
-                    padding: '1.2rem',
+                    maxWidth: '650px',
+                    marginInline: 'auto',
+                    padding: '1.5rem',
                     display: 'flex',
                     flexDirection: 'column',
                     border: '1px solid var(--card-border)',
